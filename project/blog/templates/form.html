@@ -4,6 +4,7 @@
     {% from "_formhelpers.html" import render_field %}
     <form method="post" action="" class="form">
         {{ render_field(form.title) }}
+        {{ render_field(form.slug) }}
         {{ render_field(form.content) }}
 
         <div class="field">

@@ -9,6 +9,7 @@ from flask import session
 from flask import request
 from flask import render_template
 from flask import request
+from flask import abort
 from google.appengine.api import users
 from werkzeug.contrib.atom import AtomFeed
 from blog.decorators import admin_login_required
@@ -59,10 +60,13 @@ def posts():
             section='home'
         )
 
-@app.route('/<int:post_id>/')
-def view(post_id):
+@app.route('/<slug>/')
+def view(slug):
+    post = Post.all().filter('slug =', slug).get()
+    if not post:
+        abort(404)
     return render_template('view.html',
-            post=Post.get_by_id(post_id)
+            post=post
         )
 
 @app.route('/add/', methods=['GET', 'POST'])
@@ -70,7 +74,7 @@ def view(post_id):
 def add():
     form = PostForm(request.form)
     if request.method == 'POST' and form.validate():
-        post = Post(title=form.title.data, content=form.content.data)
+        post = Post(title=form.title.data, slug=form.slug.data, content=form.content.data)
         post.put()
         return redirect(post.get_url())
     return render_template('form.html',
@@ -138,7 +142,7 @@ def make_external(url):
 @app.route('/feed/')
 def feed():
     feed = AtomFeed(u'Последние посты', feed_url=request.url, url=request.url_root)
-    posts = Post.all().order('-created').fetch(limit=20)
+    posts = Post.all().filter('hidden =', False).order('-created').fetch(limit=20)
     for post in posts:
         feed.add(post.title, unicode(post.content),
                  content_type='html',

@@ -9,6 +9,7 @@ class User(db.Model):
 
 class Post(db.Model):
     title = db.StringProperty(required=True)
+    slug = db.StringProperty()
     content = db.TextProperty(required=True)
     created = db.DateTimeProperty(auto_now_add=True)
     hidden = db.BooleanProperty(default=True)
@@ -24,4 +25,4 @@ class Post(db.Model):
         return dt.ru_strftime(u'%d %B', self.created, inflected=True)
 
     def get_url(self):
-        return url_for('view', post_id=self.id)
+        return url_for('view', slug=self.slug)

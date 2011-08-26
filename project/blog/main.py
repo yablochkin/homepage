@@ -2,20 +2,19 @@
 from flask import Flask
 app = Flask(__name__)
 app.config.from_object('blog.settings')
-
 from flask import g
 from flask import redirect
 from flask import url_for
 from flask import session
 from flask import request
 from flask import render_template
-
-from decorators import admin_login_required
-
-from models import Post
-from forms import PostForm
-
+from flask import request
 from google.appengine.api import users
+from werkzeug.contrib.atom import AtomFeed
+from blog.decorators import admin_login_required
+from blog.models import Post
+from blog.forms import PostForm
+from urlparse import urljoin
 
 @app.before_request
 def before_request():
@@ -73,7 +72,7 @@ def add():
     if request.method == 'POST' and form.validate():
         post = Post(title=form.title.data, content=form.content.data)
         post.put()
-        return redirect(url_for('view', post_id=post.id))
+        return redirect(post.get_url())
     return render_template('form.html',
             form=form,
             section='add'
@@ -87,7 +86,7 @@ def edit(post_id):
     if request.method == 'POST' and form.validate():
         form.populate_obj(post)
         post.put()
-        return redirect(url_for('view', post_id=post.id))
+        return redirect(post.get_url())
     return render_template('form.html',
             form=form
         )
@@ -98,7 +97,7 @@ def change_status(post_id):
     post = Post.get_by_id(post_id)
     post.hidden = not post.hidden
     post.put()
-    return redirect(url_for('view', post_id=post.id))
+    return redirect(post.get_url())
 
 @app.route('/delete/<int:post_id>/')
 @admin_login_required
@@ -132,3 +131,19 @@ def login():
         return redirect(url_for('posts'))
     else:
         return redirect(users.create_login_url(url_for('posts')))
+
+def make_external(url):
+    return urljoin(request.url_root, url)
+
+@app.route('/feed/')
+def feed():
+    feed = AtomFeed(u'Последние посты', feed_url=request.url, url=request.url_root)
+    posts = Post.all().order('-created').fetch(limit=20)
+    for post in posts:
+        feed.add(post.title, unicode(post.content),
+                 content_type='html',
+                 author=u'Bers',
+                 url=make_external(post.get_url()),
+                 updated=post.created,
+                 published=post.created)
+    return feed.get_response()

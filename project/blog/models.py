@@ -1,5 +1,6 @@
 # coding: UTF-8
 from google.appengine.ext import db
+from flask import url_for
 from pytils import dt
 
 
@@ -21,3 +22,6 @@ class Post(db.Model):
         Formated date
         '''
         return dt.ru_strftime(u'%d %B', self.created, inflected=True)
+
+    def get_url(self):
+        return url_for('view', post_id=self.id)

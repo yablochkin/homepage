@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% from "_formhelpers.html" import render_field %}
+    <form method="post" action="" class="form">
+        {{ render_field(form.title) }}
+        {{ render_field(form.content) }}
+
+        <div class="field">
+            <label for="asd"></label>
+            <input type="submit" value="Отправить" class="submit">
+        </div>
+    </form>
+    <div class="clearfix"></div>
+{% endblock %}

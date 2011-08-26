@@ -1,0 +1,4 @@
+*.pyc
+*.swo
+.DS_Store
+google_appengine

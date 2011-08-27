@@ -141,7 +141,7 @@ def make_external(url):
 
 @app.route('/feed/')
 def feed():
-    feed = AtomFeed(u'Последние посты', feed_url=request.url, url=request.url_root)
+    feed = AtomFeed(u'Bers blog', feed_url=request.url, url=request.url_root)
     posts = Post.all().filter('hidden =', False).order('-created').fetch(limit=20)
     for post in posts:
         feed.add(post.title, unicode(post.content),

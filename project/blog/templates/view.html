@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% block title %}{{ post.title }}{% endblock %}
+
 {% block content %}
     <div class="post big">
         <div class="created">{{ post.get_date() }}</div>
@@ -7,7 +9,9 @@
             {{ post.title }}
             {% if users.is_current_user_admin() %}
                 <a href="{{ url_for('edit', post_id=post.id) }}"><img src="/static/images/icons/edit.png" width="16" height="16"></a>
+                <!--
                 <a href="{{ url_for('delete', post_id=post.id) }}"><img src="/static/images/icons/delete.png" width="16" height="16"></a>
+                -->
                 <a href="{{ url_for('change_status', post_id=post.id) }}">[{% if post.hidden %}show{% else %}hide{% endif %}]</a>
             {% endif %}
         </div>

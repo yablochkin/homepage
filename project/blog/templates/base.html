@@ -8,7 +8,7 @@
         <meta name="keywords" content="python, django, bers, webdev, php, javascript, mysql, jquery, highload" />
         <meta name="robots" content="index, follow" />
         <meta name="revisit-after" content="1 Day" />
-        <link rel="stylesheet" href="/static/css/main.css" />
+        <link rel="stylesheet" href="/static/css/main.css?1" />
         <link href="{{ url_for('feed') }}" rel="alternate" title="yablochkin.net" type="application/atom+xml" />
 {% block extra_head %}{% endblock %}
 <script type="text/javascript">
@@ -29,11 +29,13 @@
     <body>
         <div id="wrapper">
             <div id="header">
-                <h1><a href="/">Вместо заголовка</a></h1>
+                <!--
+                <h1><a href="/">yablochkin.net</a></h1>
+                -->
 
                 <div id="menu">
                     <ul>
-                        <li{% if section == 'home' %} class="selected"{% endif %}><a href="{{ url_for('posts') }}">Главная</a></li>
+                        <li{% if section == 'home' %} class="selected"{% endif %}><a href="{{ url_for('posts') }}">Блог</a></li>
                         <li{% if section == 'about' %} class="selected"{% endif %}><a href="{{ url_for('about') }}">Об авторе</a></li>
                         <li{% if section == 'contacts' %} class="selected"{% endif %}><a href="{{ url_for('contacts') }}">Контакты</a></li>
                         {% if users.is_current_user_admin() %}
@@ -48,12 +50,14 @@
                 {% block content %}{% endblock %}
             </div>
 
+            <!--
             <div id="footer">
                 <div id="footer_stripe"></div>
                 <span id="footer_label">
                     Bers, 2011
                 </span>
             </div>
+            -->
         </div>
     </body>
 </html>

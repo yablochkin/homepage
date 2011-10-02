@@ -61,12 +61,12 @@ body {
 }
 
 h1 {
-    font-size: 31px;
+    font-size: 23px;
     font-weight: normal;
     text-transform: uppercase;
     text-align: center;
     letter-spacing: 1px;
-    padding: 25px 0 10px 0;
+    padding: 18px 0 6px 0;
 }
 
 h1 a {
@@ -75,7 +75,7 @@ h1 a {
 }
 
 #menu {
-    margin-top: 10px;
+    margin-top: 15px;
     padding: 5px;
     background: #FBFBFB;
     border-top: 1px solid #EAEAEA;
@@ -123,6 +123,7 @@ h1 a {
 
 #footer {
     text-align: center;
+    padding-bottom: 20px;
 }
 
 #footer_stripe {
@@ -148,11 +149,11 @@ h1 a {
     clear: both;
 }
 
-.post a {
+#maincontent a {
     color: #444;
 }
 
-.post a:hover {
+#maincontent a:hover {
     color: black;
 }
 
@@ -246,4 +247,8 @@ input.submit {
 
 #disqus_thread {
     padding-top: 15px;
+}
+
+pre {
+    margin-top: 5px;
 }

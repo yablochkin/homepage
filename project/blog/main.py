@@ -17,29 +17,6 @@ from blog.models import Post
 from blog.forms import PostForm
 from urlparse import urljoin
 
-@app.before_request
-def before_request():
-    """
-    if the session includes a user_key it will also try to fetch
-    the user's object from memcache (or the datastore).
-    if this succeeds, the user object is also added to g.
-    """
-    if 'user_key' in session:
-        user = cache.get(session['user_key'])
-
-        if user is None:
-            # if the user is not available in memcache we fetch
-            # it from the datastore
-            user = User.get_by_key_name(session['user_key'])
-
-            if user:
-                # add the user object to memcache so we
-                # don't need to hit the datastore next time
-                cache.set(session['user_key'], user)
-
-        g.user = user
-    else:
-        g.user = None
 
 @app.context_processor
 def auth():
@@ -50,6 +27,10 @@ def auth():
         )
 
 @app.route('/')
+def index():
+    return redirect('about')
+
+@app.route('/blog/')
 def posts():
     posts = Post.all()
     if not users.is_current_user_admin():

@@ -35,7 +35,10 @@
 
                 <div id="menu">
                     <ul>
-                        <li{% if section == 'home' %} class="selected"{% endif %}><a href="{{ url_for('posts') }}">Блог</a></li>
+                        <li{% if section == 'home' %} class="selected"{% endif %} style="padding-right: 27px">
+                            <a href="{{ url_for('posts') }}">Блог</a>
+                            <a href="{{ url_for('feed') }}" id="feed_url"></a>
+                        </li>
                         <li{% if section == 'about' %} class="selected"{% endif %}><a href="{{ url_for('about') }}">Об авторе</a></li>
                         <li{% if section == 'contacts' %} class="selected"{% endif %}><a href="{{ url_for('contacts') }}">Контакты</a></li>
                         {% if users.is_current_user_admin() %}

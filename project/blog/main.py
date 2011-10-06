@@ -2,13 +2,10 @@
 from flask import Flask
 app = Flask(__name__)
 app.config.from_object('blog.settings')
-from flask import g
 from flask import redirect
 from flask import url_for
-from flask import session
 from flask import request
 from flask import render_template
-from flask import request
 from flask import abort
 from google.appengine.api import users
 from werkzeug.contrib.atom import AtomFeed
@@ -117,9 +114,6 @@ def login():
     else:
         return redirect(users.create_login_url(url_for('posts')))
 
-def make_external(url):
-    return urljoin(request.url_root, url)
-
 @app.route('/feed/')
 def feed():
     feed = AtomFeed(u'Bers blog', feed_url=request.url, url=request.url_root)
@@ -128,7 +122,7 @@ def feed():
         feed.add(post.title, unicode(post.content),
                  content_type='html',
                  author=u'Bers',
-                 url=make_external(post.get_url()),
+                 url=urljoin(request.url_root, post.get_url()),
                  updated=post.created,
                  published=post.created)
     return feed.get_response()

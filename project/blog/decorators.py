@@ -1,15 +1,15 @@
 # coding: UTF-8
-
 from flask import g
 from flask import redirect
 from flask import url_for
 
 from functools import wraps
-
 from google.appengine.api import users
-
 from werkzeug.contrib.cache import GAEMemcachedCache
+
+
 cache = GAEMemcachedCache()
+
 
 def login_required(f):
     """
@@ -22,6 +22,7 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+
 def admin_login_required(f):
     """
     redirects to the index page if the user has no session
@@ -32,6 +33,7 @@ def admin_login_required(f):
             return redirect('/')
         return f(*args, **kwargs)
     return decorated_function
+
 
 def cache_page(timeout=5 * 60, key='view/%s'):
     """

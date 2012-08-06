@@ -256,7 +256,23 @@ pre {
 #feed_url {
     display: inline-block;
     position: absolute;
-    background-image: url(http://cdn1.iconfinder.com/data/icons/tydlinka/16x16/rss.png);
+    background-image: url(/static/images/icons/rss.png);
     width: 16px;
     height: 16px;
+}
+
+.comment_count {
+    background-image: url(/static/images/icons/comment.gif);
+    background-repeat: no-repeat;
+    background-position: center left;
+    margin-left: 5px;
+    padding: 0 0 0 12px;
+    height: 12px;
+    color: #666;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.comment_count:empty {
+    padding: 0 !important;
 }
